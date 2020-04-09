@@ -1,0 +1,285 @@
+// Import & use other css start
+
+    @use './modules/modules.scss';
+    @use './partials/partials.scss';
+    @use './vendors/vendors.scss';
+    
+
+// Import & use other css end
+
+
+// variable start
+
+$color_white: #fff;
+$color_pink: #fc0254;
+$color_dark_navy_blue: #0a183d;
+$color_light_black: #08192d;
+$color_light_navy_blue: #383b70;
+$color_light_grey: #979aa5;
+$color_grey: #6a7080;
+$color_orange: #ed6624;
+
+$round_radius: 50%;
+$big_radius: 40px;
+
+$breakpoints: (phone: 575px, tablet: 991px, desktop: 1024px) !default;
+
+$prefixes:(webkit, moz, ms, o);
+
+// variable end
+
+
+// mixin start
+
+@mixin breakpoint($point) {
+    @if $point ==  desktop{
+      @media (min-width: 1025px) { @content; }
+    }
+    @else if $point == tablet {
+        @media only screen and (min-width: 576px) and (max-width: 1024px) { @content; }
+    }
+    @else if $point == phone {
+        @media only screen and (min-width: 300px) and (max-width: 575px)  { @content; }
+    }
+}
+
+@mixin large-btn($bg_color, $hover_bgcolor){
+    color:#fff;
+    font-size: 14px;
+    padding: 14px 20px;
+    border-radius: 50px;
+    background-color: $bg_color;
+    border: 2px solid $bg_color;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    display: inline-block;
+    cursor: pointer;
+    &:hover{
+        background-color: $hover_bgcolor;
+        color: $bg_color;
+    }
+    @include breakpoint(tablet) {
+        font-size: 13px;
+        padding: 8px 15px;
+    }
+    @include breakpoint(phone) {
+        font-size: 12px;
+        padding: 5px 12px;
+    }
+}
+
+@mixin large-font{
+    font-size: 60px;
+    @include breakpoint(tablet) {
+        font-size: 35px;
+    }
+    @include breakpoint(phone) {
+        font-size: 24px;
+    }
+}
+
+@mixin nav-font{
+    font-size: 20px;
+    @include breakpoint(tablet) {
+        font-size: 16px;
+    }
+    @include breakpoint(phone) {
+        font-size: 14px;
+    }
+}
+
+@mixin prefix-property ($property, $value, $prefixes) {
+    @each $prefix in $prefixes {
+        -#{$prefix}-#{$property}: $value;
+    }
+    #{$property}: $value;
+}
+
+// mixin end
+
+
+// loop and functions start
+
+@function before_image($i){
+    @if $i == 1{
+        @return #{'../images/brain.png'};
+    }
+    @else if $i == 2{
+        @return #{'../images/pointer.png'};
+    }
+    @else if $i == 3{
+        @return #{'../images/smartphone.png'};
+    }
+}
+
+@for $i from 1 through 3{
+    .info-icon-#{$i}{
+        height: 60px;
+        width: 60px;
+        position: relative;
+        border-radius: $round_radius;
+        background-color: $color_pink;
+        &::before{
+            content: '';
+            position: absolute;
+            height: 70%;
+            width: 70%;
+            bottom: 0;
+            right: -10px;
+            background-image: url(before_image($i));
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    }
+}
+
+// loop and functions end
+
+
+// common class start
+
+// text css
+p{line-height: 1.8;}
+
+
+// font color class
+.text-white{color: $color_white;}
+.text-pink{color: $color_pink;}
+.text-dark-navy-blue{color: $color_dark_navy_blue;}
+.text-light-black{color: $color_light_black;}
+.text-light-navy-blue{color: $color_light_navy_blue;}
+.text-light-grey{color: $color_light_grey;}
+.text-grey{color: $color_grey;}
+.text-orange{color: $color_orange;}
+
+// background color class
+.bg-color-white{background-color: $color_white;}
+.bg-color-pink{background-color: $color_pink;}
+.bg-color-dark-navy-blue{background-color: $color_dark_navy_blue;}
+.bg-color-light-black{background-color: $color_light_black;}
+.bg-color-light-navy-blue{background-color: $color_light_navy_blue;}
+.bg-color-light-grey{background-color: $color_light_grey;}
+.bg-color-grey{background-color: $color_grey;}
+.bg-color-orange{background-color: $color_orange;}
+
+// font weight class
+.font-light-bold{font-weight: 600;}
+.font-extra-bold{font-weight: 800;}
+.font-black{font-weight: 900;}
+
+// button class
+.btn-pink{@include large-btn($color_pink, $color_white);}
+.btn-blue{@include large-btn($color_light_navy_blue, $color_white )}
+
+// Section spacer
+.section-spacer{padding: 60px 0; @include breakpoint(tablet){padding: 45px;}; @include breakpoint(phone){padding: 30px 0;}}
+
+// common class end
+
+// custom css start
+
+body{background-color: $color_white; font-family: 'Quicksand', sans-serif;}
+.before-white::before{color: $color_white;}
+.large-font{@include large-font();}
+.nav-font{@include nav-font();}
+.user-select-none{@include prefix-property(user-select, none !important, $prefixes)}
+.rotate-img{@include prefix-property(transform, scaleX(-1), $prefixes)}
+.outline{&:focus{outline: none;}}
+
+.menuIcon{
+    width: 15px;
+    height: 2px;
+    background-color: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    margin-right: .8rem;
+    top: -1px;
+    @include prefix-property(transition, all 0.3s ease, $prefixes);
+    .collapsed &{
+        background-color: $color_orange;
+    }
+    &::before{
+        @include prefix-property(transform, translateY(0px) rotate(45deg), $prefixes);
+        .collapsed &{
+            @include prefix-property(transform, translateY(6px) rotate(0deg), $prefixes);
+        }
+    }
+    &::after{
+        @include prefix-property(transform, translateY(0px) rotate(-45deg), $prefixes);
+        .collapsed &{
+            @include prefix-property(transform, translateY(-6px) rotate(0deg), $prefixes);
+        }
+    }
+    &::before, &::after{
+        content: "";
+        display: block;
+        height: 2px;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        background-color: $color_orange;
+        @include prefix-property(transform-origin, center, $prefixes);
+        @include prefix-property(transition, all 0.3s ease, $prefixes);
+    }
+}
+
+.navbar-nav-link{
+    transition: all 0.3s ease;
+    overflow: hidden;
+    z-index: 2;
+    position: relative;
+    display: block;
+    &:hover{
+        color: $color_white;
+        transition: all 0.3s ease;
+        &::before{
+            left: 0;
+            width: 100%;
+        }
+        &::after{
+            right: 0;
+            width: 100%;
+        }
+    }
+    &::before, &::after{
+        content: '';
+        position: absolute;
+        height: 50%;
+        width: 0;
+        background-color: $color_orange;
+        transition: all 0.3s ease;
+        z-index: -1;
+    }
+    &::before{left: -100%; top: 0;}
+    &::after{right: -100%; bottom: 0;}
+}
+
+.owl-carousel button.owl-dot{
+    height: 8px; 
+    width: 8px; 
+    margin: 0 6px;
+    border-radius: $round_radius; 
+    background-color: $color_light_navy_blue !important;
+    &.active{background-color: $color_pink !important;}
+    &:focus{outline: none !important;}
+}
+
+.sticky{position: fixed; top: 0; width: 100%; left: 0; right: 0; z-index: 9999;}
+
+.active .fadeInUp{animation: fadeInUp 1s ease 0s;}
+
+.animated  {
+    -webkit-animation-duration : 1000 ms  ;
+    animation-duration : 1000 ms  ;
+    -webkit-animation-fill-mode : both  ;
+    animation-fill-mode : both  ;
+}  
+.owl-animated-out {
+    z-index : 1 
+}
+.owl-animated-in {
+    z-index : 0 
+}
+
+// custom css end
