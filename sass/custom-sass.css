@@ -23079,7 +23079,7 @@ p {
 }
 @media only screen and (min-width: 576px) and (max-width: 1024px) {
   .section-spacer {
-    padding: 45px;
+    padding: 45px 0;
   }
 }
 @media only screen and (min-width: 300px) and (max-width: 575px) {

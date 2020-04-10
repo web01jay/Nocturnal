@@ -172,7 +172,7 @@ p{line-height: 1.8;}
 .btn-blue{@include large-btn($color_light_navy_blue, $color_white )}
 
 // Section spacer
-.section-spacer{padding: 60px 0; @include breakpoint(tablet){padding: 45px;}; @include breakpoint(phone){padding: 30px 0;}}
+.section-spacer{padding: 60px 0; @include breakpoint(tablet){padding: 45px 0;}; @include breakpoint(phone){padding: 30px 0;}}
 
 // common class end
 
